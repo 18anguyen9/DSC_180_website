@@ -36,24 +36,16 @@ h4 {
 .our_contribution{
   margin-top: 5%;
 }
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-
-  }
-.left{
-    float: left;
-    margin-left: 2.5%;
-}
-.right{
-    float: right;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-}
 .center_pic{
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+.imgContainer{
+  padding-bottom: 50%;
+}
+.latent_pics{
+  float: left; height: 85%; width: 44%; margin-left: 5.5%; margin-right: 0.5%; 
+
 }

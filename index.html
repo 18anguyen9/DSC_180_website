@@ -32,9 +32,10 @@
                 <img src="single_autoencoder.png" alt="" class="center_pic">
             </figure>
             
-            
             <p class="center_paragraph">Autoencoders can be connected to share the same latent space, such that they can learn to reconstruct one set of input data from another. We can perform this linkage with our coupled autoencoder, and we can see that both the data for GEX and ADT are aligned. Thus a coupled  autoencoder model will be able to predict ADT data from GEX and GEX data from ADT. In order to improve the coupled autoencoder’s predictions, we will need to optimize the architecture as well as add supervision in both the latent space and the outputs.
             </p>
+            <img src="coupled_auto.png" alt="" class="center_pic" style="height: 50%; width: 30%;">
+            <p class="center_paragraph" style="font-size: small;"><b>This figure is a coupled autoencoder framework. It contains 2 encoders which reduce the dimensions of both input modalities down to the latent space which then makes it possible to perform cross modality prediction through its 2 decoder layers.</b></p>
             <p class="center_paragraph">To add supervision in the latent space, we implemented two loss functions. The first loss function is pairwise distance loss functions. We define the pairwise loss function as:
             </p>
             <img src="pairwise.png" alt="" class="center_pic">

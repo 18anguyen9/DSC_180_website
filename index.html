@@ -8,12 +8,12 @@
 
         <div id="intro">
             <h2>Introduction</h2>
-            <img src="dna_flow.png" alt="" class='intro_pic' >
             <p class="intro_p">Cells are the basic building blocks of life, thus they are important to how our bodies function. Inside all of our cells are three different forms, or modalities, of genetic information: DNA, mRNA, and proteins. Genes are made up of DNA and every single cell in the human body possesses the same genes. Cells can activate certain parts of the gene to produce specific proteins, allowing the cells in the body to specialize despite drawing from the same set of instructions. These proteins then go on to perform important biological tasks for each cell, 
                 allowing living organisms to function. </p>
+                <img src="dnaflow.png" alt="" class='center_pic' style="height: 40%; width: 60%;" >
         </div>
         
-        <hr style="margin-top: 20%;">
+        <hr>
 
         <div id="Contribution">
             <h2 class="our_contribution">Our Contribution</h2>
@@ -28,20 +28,29 @@
             <h3>Coupled Autoencoder</h3>
             <p class="center_paragraph">To accomplish our task, we will be using a coupled autoencoder model, which utilizes a type of neural network called an autoencoder. An autoencoder consists of three, necessary layers: the encoder layer, the code (latent space), and the decoder layers. Encoding layers are often put between the input and the code, and decoding layers are put between the latent space and the output layers. As the data passes between layers in the encoding portion of the autoencoder, it undergoes dimensionality reduction, which will help us denoise the data to find the components of it that encode the most information. The decoding layers will then take the compressed version of the data in the code and reconstruct it layer by layer as the data travels back to the output layer. A single autoencoder model framework is shown below.
             </p>
-            <figure>
+
+            <figure title="Single Autoencoder Framework">
+                <figcaption class="fig_title"><b>Single Autoencoder Framework</b></figcaption>
                 <img src="single_autoencoder.png" alt="" class="center_pic">
             </figure>
             
             <p class="center_paragraph">Autoencoders can be connected to share the same latent space, such that they can learn to reconstruct one set of input data from another. We can perform this linkage with our coupled autoencoder, and we can see that both the data for GEX and ADT are aligned. Thus a coupled  autoencoder model will be able to predict ADT data from GEX and GEX data from ADT. In order to improve the coupled autoencoder’s predictions, we will need to optimize the architecture as well as add supervision in both the latent space and the outputs.
             </p>
-            <img src="coupled_auto.png" alt="" class="center_pic" style="height: 50%; width: 30%;">
-            <p class="center_paragraph" style="font-size: small;"><b>This figure is a coupled autoencoder framework. It contains 2 encoders which reduce the dimensions of both input modalities down to the latent space which then makes it possible to perform cross modality prediction through its 2 decoder layers.</b></p>
+
+            <figure title="Coupled Autoencoder Framework">
+                <figcaption class="fig_title"><b>Coupled Autoencoder Framework</b></figcaption>
+                <img src="coupled_auto.png" alt="" class="center_pic" style="height: 50%; width: 30%;">
+                <figcaption class="bot_caption"><b>This figure is a coupled autoencoder framework. It contains 2 encoders which reduce the dimensions of both input modalities down to the latent space which then makes it possible to perform cross modality prediction through its 2 decoder layers.</b> </figcaption>
+           
+            </figure>
+            
+           
             <p class="center_paragraph">To add supervision in the latent space, we implemented two loss functions. The first loss function is pairwise distance loss functions. We define the pairwise loss function as:
             </p>
             <img src="pairwise.png" alt="" class="center_pic">
-            <p class="center_paragraph"> We denote the encoder and decoder layers of the model by Ei and Ej,  Di and Dj for GEX and ADT respectively. In addition, we denote the original data as Xi,Xj for GEX and ADT respectively. Z(X)  calculates the p-norm distance between each point in the data and is defined as the following, where X is defined as the given matrix for the data. Z(X) is defined as:
+            <p class="center_paragraph"> We denote the encoder and decoder layers of the model by E<sub>i</sub>  and E<sub>j</sub>,  D<sub>i</sub> and D<sub>j</sub> for GEX and ADT respectively. In addition, we denote the original data as X<sub>i</sub>,X<sub>j</sub> for GEX and ADT respectively. Z(X)  calculates the p-norm distance between each point in the data and is defined as the following, where X is defined as the given matrix for the data. Z(X) is defined as:
             </p>
-            <img src="z_t.png" alt="" class="center_pic" style="height: 3%; width: 18%;">
+            <img src="z_t.png" alt="" class="center_pic" style="height: 3.5%; width: 15%;">
             <p class = center_paragraph>While we cannot directly calculate the loss of a cell in the input space and its representation in the embedded space, due to the dimensionality reduction aspect of the autoencoder, we instead attempt to preserve the distance between given cells in the input space and those corresponding cells in the latent space as a workaround. This is the goal of our pairwise distance, where we calculate the summation of all of the differences between the pairwise distance of two given cells in the input space and in the embedding. This loss function is then normalized by how many pairwise distance calculations were made in the summation. The goal of our Pairwise Distance loss is to preserve the distance among the points between the original space, and the embedding in the lower dimensions after the encoding, which would result in the same clusters of cells inherently present in the input space to also be maintained in the embedded space.
             </p>
             <p class="center_paragraph">Our next loss inside the latent space is Alignment Loss. Since the latent space is shared between the two modalities, we want the embeddings in the latent space to be the same in terms of both position and general clustering patterns. Thus, this loss will be calculated as the mean squared error between the two embeddings, i.e. the mean squared error between the embedding of the GEX data and the ADT data. It is defined as:
@@ -66,20 +75,26 @@
         <hr>
         <div>
             <h2>Results</h2>
-
             <h3>Data and set up</h3>
             <h3>Coupled autoencoder results</h3>
-            <img src="latent_dim.png" alt="" class="center_pic" style="height: 40%;width: 40%;">
+
+            <figure style="padding-bottom: 2%;">
+                <figcaption class="fig_title">Latent Dimension Optimization</figcaption>
+                <img src="latent_dim.png" alt="" class="center_pic" style="height: 40%;width: 40%;">
+            </figure>
+            
 
 
-
+            <p class="center_paragraph">Below We attempt our task with a barebones coupled autoencoder to get a basis for how well the neural network is able to perform without further supervision and improvements. The dimensions of the latent space are confined to 2 for the purpose of visualizing the embedded clustering of cell types. It is very likely that the dimensions for the latent space of an autoencoder optimized for the prediction task may be larger than 2 or 3, and will be harder to visualize.
+            </p>
            <div class="imgContainer">
-            <img src="gex_latent.png" alt="" class="latent_pics">
-            <img src="adt_latent.png" alt="" s5%; class="latent_pics">
-
+            <p style="float: left; padding-left: 15%; padding-bottom: 0%;"><b>GEX Cell Type Clustering In Latent Space</b></p>
+            <p style="float: right; padding-right: 15%; padding-bottom: 0%;"><b>ADT Cell Type Clustering In Latent Space</b></p>
+              <img src="gex_latent.png" alt="" class="latent_pics">
+              <img src="adt_latent.png" alt="" s5%; class="latent_pics">
            </div>
            
-            <p>placeholder images for latent space, rmse changes, </p>
+           
         
 
             <h3>Improvements</h3>

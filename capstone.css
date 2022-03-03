@@ -16,16 +16,16 @@ h4 {
 
 }
 .intro_p{
-  text-align: left;
+  text-align: center;
   margin-left: 4.5%;
   
 }
 .intro_pic{
-  float: right;
-  margin-left: 2.5%;
-  margin-right: 4.5%;
+  float: center;
+  margin-left: 7.5%;
+  margin-right: 7.5%;
   height: 30%; 
-  width: 25%;
+  width: 20%;
 
 }
 .center_paragraph{
@@ -34,7 +34,7 @@ h4 {
   margin-right: 2.5%;
 }
 .our_contribution{
-  margin-top: 5%;
+  margin-top: 1%;
 }
 .center_pic{
   display: block;
@@ -44,8 +44,24 @@ h4 {
 }
 .imgContainer{
   padding-bottom: 50%;
+  padding-top: 0%;
 }
 .latent_pics{
-  float: left; height: 85%; width: 44%; margin-left: 5.5%; margin-right: 0.5%; 
+  float: left; height: 85%; width: 44%; margin-left: 4.5%; margin-right: 0.5%; 
+  padding-top: 1%;
 
+}
+.fig_title{
+  display: top-caption;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 0em;
+  text-align: center;
+}
+.bot_caption{
+  text-align: center;
+  font-size: small;
+  padding-bottom: 1em;
+  padding-top: 1em;
 }

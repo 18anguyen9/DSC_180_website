@@ -30,7 +30,7 @@ h4 {
   width: 50%;
 }
 .imgContainer{
-  padding-bottom: 50%;
+  padding-bottom: 10%;
   padding-top: 0%;
 }
 .latent_pics{
@@ -44,11 +44,19 @@ h4 {
   text-align: center;
   padding-top: 1em;
   padding-bottom: 0em;
+  padding-left: 5em;
   text-align: center;
 }
 .bot_caption{
   text-align: center;
   font-size: small;
-  padding-bottom: 1em;
-  padding-top: 1em;
+  padding-bottom: 0em;
+  padding-top: 0em;
+  margin-left: 5.5%;
+  margin-right: 5.5%;
+}
+.dim_pics{
+  float: left; height: 60%; width: 40%; margin-left: 6.5%; margin-right: 0.5%; 
+  padding-top: 0%;
+
 }

@@ -11,7 +11,10 @@
             <p class="center_paragraph">Cells are the basic building blocks of life, thus they are important to how our bodies function. Inside all of our cells are three different forms, or modalities, of genetic information: DNA, mRNA, and proteins. Genes are made up of DNA and every single cell in the human body possesses the same genes. Cells can activate certain parts of the gene to produce specific proteins, allowing the cells in the body to specialize despite drawing from the same set of instructions. These proteins then go on to perform important biological tasks for each cell, 
                 allowing living organisms to function. </p>
                 <img src="dnaflow.png" alt="" class='center_pic' style="height: 40%; width: 60%;" >
+                <p class="bot_caption"> <b>Fig 1.</b> Flow of Information across Modalities </p>
+
         </div>
+
         <hr>
 
         <div id="Contribution">
@@ -33,6 +36,8 @@
                 <figcaption class="fig_title"><b>Single Autoencoder Framework</b></figcaption>
                 <img src="single_autoencoder.png" alt="" class="center_pic">
             </figure>
+            <p class="bot_caption"> <b>Fig 2.</b> Single Autoencoder Framework.Has an Encoder network, latent space, and Decoder network</p>
+
             
             <p class="center_paragraph">Autoencoders can be connected to share the same latent space, such that they can learn to reconstruct one set of input data from another. We can perform this linkage with our coupled autoencoder, and we can see that both the data for GEX and ADT are aligned. Thus a coupled  autoencoder model will be able to predict ADT data from GEX and GEX data from ADT. In order to improve the coupled autoencoder’s predictions, we will need to optimize the architecture as well as add supervision in both the latent space and the outputs.
             </p>
@@ -40,8 +45,8 @@
             <figure title="Coupled Autoencoder Framework">
                 <figcaption class="fig_title"><b>Coupled Autoencoder Framework</b></figcaption>
                 <img src="coupled_auto.png" alt="" class="center_pic" style="height: 50%; width: 30%;">
-                <figcaption class="bot_caption"><b>This figure is a coupled autoencoder framework. It contains 2 encoders which reduce the dimensions of both input modalities down to the latent space which then makes it possible to perform cross modality prediction through its 2 decoder layers.</b> </figcaption>
-           
+                <p class="bot_caption"> <b>Fig 3.</b> This figure is a coupled autoencoder framework. It contains 2 encoders which reduce the dimensions of both input modalities down to the latent space which then makes it possible to perform cross modality prediction through its 2 decoder layers.</p>
+
             </figure>
             
            
@@ -85,7 +90,7 @@
               <img src="gex_latent.png" alt="" class="latent_pics">
               <img src="adt_latent.png" alt=""  class="latent_pics">   
            </div>
-           <p class="bot_caption"> <b>Fig 3.</b>Above we see cell types clusters in the latent space specified with different colors. The two modalities are aligned, as shown with the same types clustered in the same area on the graph.</p>
+           <p class="bot_caption"> <b>Fig 4.</b>Above we see cell types clusters in the latent space specified with different colors. The two modalities are aligned, as shown with the same types clustered in the same area on the graph.</p>
            
 
            <div class="imgContainer">
@@ -94,7 +99,7 @@
               <img src="gex_pca.png" alt="" class="dim_pics">
               <img src="adt_pca.png" alt=""  class="dim_pics">
            </div>
-           <p class="bot_caption"> <b>Fig 4.</b>Above PCA for ADT does not show many cell clusters while GEX shows even less. On top of this, the two embeddings are not aligned.  </p>
+           <p class="bot_caption"> <b>Fig 5.</b>Above PCA for ADT does not show many cell clusters while GEX shows even less. On top of this, the two embeddings are not aligned.  </p>
 
 
            <div class="imgContainer">
@@ -103,7 +108,7 @@
             <img src="gex_iso.png" alt="" class="dim_pics">
             <img src="adt_iso.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 5.</b>Above ISOMAPS for ADT and GEX do not cluster well. On top of this, the two embeddings are not aligned.  </p>
+         <p class="bot_caption"> <b>Fig 6.</b>Above ISOMAPS for ADT and GEX do not cluster well. On top of this, the two embeddings are not aligned.  </p>
 
 
          <div class="imgContainer">
@@ -112,13 +117,13 @@
             <img src="gex_tsne.png" alt="" class="dim_pics">
             <img src="adt_tsne.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 6.</b>Above TSNE clusters cell types for both GEX and ADT well, but does not align very well. This is shown by different clusters or colors in different distributions between the two graphs </p>
+         <p class="bot_caption"> <b>Fig 7.</b>Above TSNE clusters cell types for both GEX and ADT well, but does not align very well. This is shown by different clusters or colors in different distributions between the two graphs </p>
 
          <div class="imgContainer">
             <img src="gex_heatmap.png" alt="" class="dim_pics">
             <img src="adt_heatmap.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 5.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
+         <p class="bot_caption"> <b>Fig 8.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
 
 
 
@@ -133,7 +138,7 @@
                 <img src="gextoadt_dim.png" alt="" class="dim_pics">
                 <img src="adttogex_dim.png" alt=""  class="dim_pics">
              </div>
-            <p class="bot_caption"> <b>Fig 6.</b> a. A line plot of the RMSE for cross-modal predictions against varying dimensions that the latent space is set to for the prediction task of GEX to ADT. b. The same graph, but for the task of ADT to GEX instead.</p>
+            <p class="bot_caption"> <b>Fig 9.</b> a. A line plot of the RMSE for cross-modal predictions against varying dimensions that the latent space is set to for the prediction task of GEX to ADT. b. The same graph, but for the task of ADT to GEX instead.</p>
     
                
             <h3>Further research</h3>

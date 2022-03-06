@@ -12,6 +12,9 @@
                 allowing living organisms to function. </p>
                 <img src="dnaflow.png" alt="" class='center_pic' style="height: 40%; width: 60%;" >
                 <p class="bot_caption"> <b>Fig 1.</b> Flow of Information across Modalities </p>
+            
+                <p class="center_paragraph">An ongoing mission of scientists in the field of biological data science is to predict this flow of genetic information from one modality to another. While researchers have been interested in analyzing single-cell data in the past, modern science lacked methods to accurately measure data pertaining to a cell as a whole without destroying it in the process. This made analysis difficult to perform, they would be left without the ground truth to compare their results to1. However, this issue can be circumvented due to the fact that we know that protein comes from RNA, and so on. This allows us to perform analysis on specific modalities, which can provide us insights that we can extrapolate to cells as a whole.
+                </p>
 
         </div>
 
@@ -19,6 +22,8 @@
 
         <div id="Contribution">
             <h2 class="our_contribution">Our Contribution</h2>
+            <p class="center_paragraph">There have been previous approaches of applying autoencoders to handle cross-modal biology problems in data science. In 2021, Gala, R., Budzillo, A., Baftizadeh, F. et al. published a scientific article on the application of coupled autoencoders to capture gene expression in neurons. They emphasize the power of a linked network of autoencoders (which they dub as a coupled autoencoder) to simultaneously optimize accurate reconstructions of input data while also ensuring that the representation between different input data is as similar as possible.
+            </p>
             <p class="center_paragraph">In this paper, we propose and utilize a neutral network framework called an coupled autoencoder to handle this cross-modality prediction problem. The coupled autoencoder builds upon the functionality of a single autoencoder, enabling both the reconstruction between and within modalities. A byproduct of this framework is that there is a common embedding, shared by both inputs, which allows us to align both modalities to the same space after encoding. Our goal is to predict one modality from another, from RNA data to protein and from protein to RNA. We implement this autoencoder in our project and find that it is able to perform decently at both clustering the cell types in the latent space, as well as cross-modal prediction. We try to improve this model with further supervision by adding additional loss functions for training and adding a scale factor for the model to learn to reconstruct the data, as we transformed one modality specifically before inputting it into the model. We find that the autoencoder performs quite adequately for RNA to ADT prediction, although further improvements could be made.
             </p>
         </div>
@@ -27,7 +32,7 @@
         <div id="Methods">
             <h2>Methods</h2>
             <h3>Problem Set Up</h3>
-            <p class="center_paragraph">filler words</p>
+            <p class="center_paragraph">As previously mentioned, the objective of our analysis is to perform cross-modal prediction between the two modalities of genetic information. Although the autoencoder framework allows bidirectional prediction, our focus will lie primarily on RNA to protein, as this is the “natural” direction of information flow in cells. The alignment of the latent space for our autoencoder will be judged by visual means, while the reconstruction accuracy will be judged by the RMSE between the reconstruction and the input of the opposite modality.</p>
             <h3>Coupled Autoencoder</h3>
             <p class="center_paragraph">To accomplish our task, we will be using a coupled autoencoder model, which utilizes a type of neural network called an autoencoder. An autoencoder consists of three, necessary layers: the encoder layer, the code (latent space), and the decoder layers. Encoding layers are often put between the input and the code, and decoding layers are put between the latent space and the output layers. As the data passes between layers in the encoding portion of the autoencoder, it undergoes dimensionality reduction, which will help us denoise the data to find the components of it that encode the most information. The decoding layers will then take the compressed version of the data in the code and reconstruct it layer by layer as the data travels back to the output layer. A single autoencoder model framework is shown below.
             </p>
@@ -74,13 +79,15 @@
             <h3>Modifications to Coupled Autoencoder</h3>
             <p class="center_paragraph">Because of the log and normalization terms we must modify the coupled autoencoder framework in order to undo the log and normalization. To undo the log, we must apply an inverse log function in order to bring the data back to its original form.</p>
             <p class=center_paragraph>To undo the normalization however takes more work. Predicting the GEX from ADT raises some challenges. To undo normalization, it requires a scale factor from the original data. Predicting GEX from ADT data does not give the model the scale factors it requires to undo the normalization as it is not the original GEX data. Thus we must train the coupled autoencoder model to learn this scale factor by adding an extra dimension to the final output of the model. With GEX data being in R^D, the final output of the model prediction will be in R^D+1 (will fix format on the final website). The D+1 dimension will then be extracted and multiplied to the first D dimension in order to output the original data. Thus we allow the model to learn the scale factor on its own to bring its predicted GEX data back to its original form. </p>
-            <h3> Local distance preservation (tentative)</h3>
+            
         </div>
         
         <hr>
         <div>
             <h2>Results</h2>
             <h3>Data and set up</h3>
+            <p class="center_paragraph">The data set for the RNA information, also called GEX (gene expression), contains 43,967 rows and 13,593 columns. The data set for protein, called ADT, contains the same number of rows, but 134 columns. Each row in both the GEX and ADT data set corresponds to the same cell, i.e. row 3 in GEX and row 3 in ADT are information for the same cell in regards to their respective modality. In the GEX data set, the values in each column represent a measurement of the amount of gene expression along the RNA strand in that cell. In the ADT data set, the values in each column represent the amount of a particular protein found in a cell.</p>
+            <p class="center_paragraph">The single-cell modality data is taken from 4 sites in the body and is collected from 10 different donors. For our analysis, we subset the cells from Site 1 donated by Donor 2 as our testing batch, and leave the rest for our training. This leaves the training set with 39,525 cells, but due to computational complications, we have to further subset this down to 10,000 randomly sampled cells. We verified that the representation both for different cell types in this smaller subset is representative of the intended training subset.</p>
             <h3>Coupled autoencoder results</h3>
             <p class="center_paragraph">Below We attempt our task with a barebones coupled autoencoder to get a basis for how well the neural network is able to perform without further supervision and improvements. The dimensions of the latent space are confined to 2 for the purpose of visualizing the embedded clustering of cell types. It is very likely that the dimensions for the latent space of an autoencoder optimized for the prediction task may be larger than 2 or 3, and will be harder to visualize.
             </p>
@@ -90,7 +97,7 @@
               <img src="gex_latent.png" alt="" class="latent_pics">
               <img src="adt_latent.png" alt=""  class="latent_pics">   
            </div>
-           <p class="bot_caption"> <b>Fig 4.</b>Above we see cell types clusters in the latent space specified with different colors. The two modalities are aligned, as shown with the same types clustered in the same area on the graph.</p>
+           <p class="bot_caption"> <b>Fig 4a,4b.</b>Above we see cell types clusters in the latent space specified with different colors. The two modalities are aligned, as shown with the same types clustered in the same area on the graph.</p>
            
 
            <div class="imgContainer">
@@ -99,7 +106,7 @@
               <img src="gex_pca.png" alt="" class="dim_pics">
               <img src="adt_pca.png" alt=""  class="dim_pics">
            </div>
-           <p class="bot_caption"> <b>Fig 5.</b>Above PCA for ADT does not show many cell clusters while GEX shows even less. On top of this, the two embeddings are not aligned.  </p>
+           <p class="bot_caption"> <b>Fig 5a,5b.</b>Above PCA for ADT does not show many cell clusters while GEX shows even less. On top of this, the two embeddings are not aligned.  </p>
 
 
            <div class="imgContainer">
@@ -108,7 +115,7 @@
             <img src="gex_iso.png" alt="" class="dim_pics">
             <img src="adt_iso.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 6.</b>Above ISOMAPS for ADT and GEX do not cluster well. On top of this, the two embeddings are not aligned.  </p>
+         <p class="bot_caption"> <b>Fig 6a,6b.</b>Above ISOMAPS for ADT and GEX do not cluster well. On top of this, the two embeddings are not aligned.  </p>
 
 
          <div class="imgContainer">
@@ -117,15 +124,20 @@
             <img src="gex_tsne.png" alt="" class="dim_pics">
             <img src="adt_tsne.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 7.</b>Above TSNE clusters cell types for both GEX and ADT well, but does not align very well. This is shown by different clusters or colors in different distributions between the two graphs </p>
+         <p class="bot_caption"> <b>Fig 7a,7b.</b>Above TSNE clusters cell types for both GEX and ADT well, but does not align very well. This is shown by different clusters or colors in different distributions between the two graphs </p>
+
+         <p class="center_paragraph">From the three dimensionality reduction methods we first used to explore the data, we can see some clustering of certain cell types with other types inherent in the original input space. PCA and Isomap, shown in Fig 5a. and 6a. for GEX and Fig 5b. and 6b. for ADT were unable to capture any clusters in the data for GEX, but were able to do so for ADT. It may be due to the extremely high dimensionality of GEX that these two methods were not able to handle, indicating that some data preprocessing might need to be performed. t-SNE, shown in Fig 7a. and 7b. actually worked well for not only the ADT data, but GEX, as well. While a good feat as is, using t-SNE results in two separate, unaligned representations of both modalities in this lower dimensionality, which effectively means that there is no learning “between” GEX and ADT.
+        </p>
+        <p class="center_paragraph">In comparison, we have plotted the latent space of our coupled autoencoder for GEX in Fig 4a. and ADT in Fig 4b. Our autoencoder performs well in capturing the clustering of the data like t-SNE, but is also able to correctly align the embedded spaces for both modalities. The distribution of the points in both the GEX and ADT modalities are well aligned, as shown by the coordinates of the points and the scales of the axes being very similar.</p>
 
          <div class="imgContainer">
             <img src="gex_heatmap.png" alt="" class="dim_pics">
             <img src="adt_heatmap.png" alt=""  class="dim_pics">
          </div>
          <p class="bot_caption"> <b>Fig 8.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
+         <p class="center_paragraph">After training the autoencoder model with the optimal parameters, it yields an RMSE of 0.8867 for predicting ADT from GEX and an RMSE of 236.4049 for predicting GEX from ADT. In the heatmaps, the warmer hues indicate a greater count of pairwise distances which fall in that specific bin. Ideally, if the autoencoder could preserve the distances between each point perfectly, then a linear pattern would show on the plots from the bottom left corner to the top right. The autoencoder did decently at preserving the pairwise distances for the embedding of the ADT data in Fig 8b., as the pattern is more linear than the GEX data embedding. The pattern is “narrower” and more defined, indicating that the preservation is more consistent. The embedding of the GEX data in Fig 8a. is less linear, shallow, and less defined, instead indicating that the autoencoder is unable to consistently preserve the pairwise distances between cells.</p>
 
-
+         
 
          
         
@@ -138,9 +150,20 @@
                 <img src="gextoadt_dim.png" alt="" class="dim_pics">
                 <img src="adttogex_dim.png" alt=""  class="dim_pics">
              </div>
-            <p class="bot_caption"> <b>Fig 9.</b> a. A line plot of the RMSE for cross-modal predictions against varying dimensions that the latent space is set to for the prediction task of GEX to ADT. b. The same graph, but for the task of ADT to GEX instead.</p>
-    
-               
+            <p class="bot_caption"> <b>Fig 9a,9b.</b> a. A line plot of the RMSE for cross-modal predictions against varying dimensions that the latent space is set to for the prediction task of GEX to ADT. b. The same graph, but for the task of ADT to GEX instead.</p>
+             <p class="center_paragraph">With this in mind, we move the focus onto the predictive task, we calculate the loss of the GEX data reconstructed from the input of ADT data to the actual GEX data by finding the RMSE. Before, we had brought the data down to 2 dimensions in order to visualize the cell type clusters. But for the final model, we want the latent space to be in higher dimensions to give the data more room to transform. After many trials we found that 10 dimensions for the latent space provided the best results as shown above, minimizing the RMSE for both cross-modal predictions.</p>
+            
+
+             <div class="imgContainer">
+                <p style="float: left; padding-left: 18%; padding-bottom: 0%;"><b>Epoch Traing Size on RMSE for ADT prediction</b></p>
+                <p style="float: right; padding-right: 15%; padding-bottom: 0%;"><b>Epoch Traing Size on RMSE for GEX prediction</b></p>
+                <img src="epochgextoadt.png" alt="" class="dim_pics">
+                <img src="epochadttogex.png" alt=""  class="dim_pics">
+             </div>
+             <p class="bot_caption"> <b>Fig 10a,10b</b>  a. A line plot of the RMSE against the number of epochs in the latent space for predicting ADT from GEX. b. The same plot, but for predicting GEX from ADT.</p>
+        
+
+
             <h3>Further research</h3>
             <p class="center_paragraph">There are some suggestions in order to improve on our model. First off is the implementation of a K Nearest Neighbor Loss. Due to the large distances of certain points from the other points in the GEX data, a k-NN loss may assist in preserving distances between points and its neighbors (within clusters) while ignoring distant points. However, while we have tried to implement a k-NN approach to preserving distances, we were unable to do so in a way which the autoencoder would be able to efficiently compute the nearest neighbors within each training batch, resulting in the runtime being unfeasibly long. Even with a low number of neighbors, such as 3 or 5, it would take a while for the autoencoder to finish training a single epoch. </p>
              <p class="center_paragraph">Currently we are working with cross modality between GEX or mRNA and ADT or Protein data. Further research can be done on the ATAC data, or the DNA modality. Moving forward with this model, cross modality prediction can be performed between GEX and ATAC data.  </p>
@@ -153,6 +176,7 @@
             <h2>References</h2>
             <p class="center_paragraph">Czi. “About Multimodal Single-Cell Data.” Open Problems in Single Cell Analysis, 21 Oct. 2021, https://openproblems.bio/neurips_docs/data/about_multimodal/.
             </p>
+            <p class="center_paragraph">Gala, R., Budzillo, A., Baftizadeh, F. et al. Consistent cross-modal identification of cortical neurons with coupled </p>
         </div>
 
         

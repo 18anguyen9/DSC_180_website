@@ -130,11 +130,12 @@
         </p>
         <p class="center_paragraph">In comparison, we have plotted the latent space of our coupled autoencoder for GEX in Fig 4a. and ADT in Fig 4b. Our autoencoder performs well in capturing the clustering of the data like t-SNE, but is also able to correctly align the embedded spaces for both modalities. The distribution of the points in both the GEX and ADT modalities are well aligned, as shown by the coordinates of the points and the scales of the axes being very similar.</p>
 
-         <div class="imgContainer">
+        <div class="test">
             <img src="gex_heatmap.png" alt="" class="dim_pics">
             <img src="adt_heatmap.png" alt=""  class="dim_pics">
          </div>
-         <p class="bot_caption"> <b>Fig 8.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
+         
+         <p class="bot_caption" > <b>Fig 8.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
          <p class="center_paragraph">After training the autoencoder model with the optimal parameters, it yields an RMSE of 0.8867 for predicting ADT from GEX and an RMSE of 236.4049 for predicting GEX from ADT. In the heatmaps, the warmer hues indicate a greater count of pairwise distances which fall in that specific bin. Ideally, if the autoencoder could preserve the distances between each point perfectly, then a linear pattern would show on the plots from the bottom left corner to the top right. The autoencoder did decently at preserving the pairwise distances for the embedding of the ADT data in Fig 8b., as the pattern is more linear than the GEX data embedding. The pattern is “narrower” and more defined, indicating that the preservation is more consistent. The embedding of the GEX data in Fig 8a. is less linear, shallow, and less defined, instead indicating that the autoencoder is unable to consistently preserve the pairwise distances between cells.</p>
 
          

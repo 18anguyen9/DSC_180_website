@@ -134,11 +134,23 @@
             <img src="gex_heatmap.png" alt="" class="dim_pics">
             <img src="adt_heatmap.png" alt=""  class="dim_pics">
          </div>
-         
          <p class="bot_caption" > <b>Fig 8.</b>a. A heatmap to visualize the autoencoder’s ability to preserve the distances in the original space in the latent space. The tick values for the y-axis are not the actual values (actual scale is [0, 290.6882]) for the range of pairwise distances in the latent space, but it is scaled to the same values as the ones in the original space for easier visualization. b. A similar heatmap, but for the embedding of the ADT data (actual scale is [0, 5.183]). </p>
-         <p class="center_paragraph">After training the autoencoder model with the optimal parameters, it yields an RMSE of 0.8867 for predicting ADT from GEX and an RMSE of 236.4049 for predicting GEX from ADT. In the heatmaps, the warmer hues indicate a greater count of pairwise distances which fall in that specific bin. Ideally, if the autoencoder could preserve the distances between each point perfectly, then a linear pattern would show on the plots from the bottom left corner to the top right. The autoencoder did decently at preserving the pairwise distances for the embedding of the ADT data in Fig 8b., as the pattern is more linear than the GEX data embedding. The pattern is “narrower” and more defined, indicating that the preservation is more consistent. The embedding of the GEX data in Fig 8a. is less linear, shallow, and less defined, instead indicating that the autoencoder is unable to consistently preserve the pairwise distances between cells.</p>
+         <p class="center_paragraph">After training the autoencoder model with the optimal parameters, it yields an RMSE of 0.7798 for predicting ADT from GEX and an RMSE of 216.4804 for predicting GEX from ADT. In the heatmaps, the warmer hues indicate a greater count of pairwise distances which fall in that specific bin. Ideally, if the autoencoder could preserve the distances between each point perfectly, then a linear pattern would show on the plots from the bottom left corner to the top right. The autoencoder did decently at preserving the pairwise distances for the embedding of the ADT data in Fig 8b., as the pattern is more linear than the GEX data embedding. The pattern is “narrower” and more defined, indicating that the preservation is more consistent. The embedding of the GEX data in Fig 8a. is less linear, shallow, and less defined, instead indicating that the autoencoder is unable to consistently preserve the pairwise distances between cells.</p>
 
          
+
+         <div class="rmsecon">
+            <figcaption class="fig_title"><b>Model Prediction on Test Set with RMSE</b></figcaption>
+             <img src="rmse.png" alt="" class="center_pic" style="height: 35%; width: 70%;">
+         </div>
+         <p class="bot_caption" > <b>Fig 9.</b>A table to compare the effects of the dimensions of the latent space along with the choice of preprocessing for the data. The values in the GEX to ADT and ADT to GEX columns are the RMSEs for each task. “Unchanged” indicates that we input the data with its original values, “normed” indicates that we normalized the values in every cell (row) to be of unit length, and “logged” indicates that we perform an entrywise natural log transformation on every value of a row. The “model” column differentiates which model we used for measuring our evaluation metric, with simple linear regression being used as the baseline and our autoencoder being used for the rest. The addition symbol indicates that such preprocessing steps were done subsequently.
+         </p>
+         <p class="center_paragraph">For our baseline, we used a simple linear regression model to fit the data which produced the results shown in the first row of Fig 6. Moving onto our autoencoder, our first test had also yet to utilize our preprocessed data and we did not optimize the hyperparameters of our model for the prediction task. This was to compare the most basic form of our autoencoder to our baseline. As shown above, normalizing the two data sets improves upon the baseline of 0.8775 for predicting GEX to ADT and 405.7371 for predicting ADT to GEX. Even more so, the optimal number of dimensions in the latent space improves it even further, with a drastic decrease of the RMSE from 335.2740 to 234.4840 as the dimensions are changed from 10 to 20. Finally, we achieve our best result by normalizing the data sets and then applying a log transformation. The difference between the unoptimized versus optimal number of dimensions is again apparent, with a very slight improvement in the GEX to ADT. It is important to note that because RNA to protein is the natural direction of the flow of genetic information, the results of GEX to ADT may bear more weight than ADT to GEX.
+        </p>
+
+
+         
+        
 
          
         
@@ -179,7 +191,7 @@
             <p class="center_paragraph">Czi. “About Multimodal Single-Cell Data.” Open Problems in Single Cell Analysis, 21 Oct. 2021, https://openproblems.bio/neurips_docs/data/about_multimodal/.
             </p>
             <p class="center_paragraph">Gala, R., Budzillo, A., Baftizadeh, F. et al. Consistent cross-modal identification of cortical neurons with coupled </p>
-            <a  style="padding-left: 45%;" href="https://github.com/18anguyen9/Single_Cell_Coupled_Autoencoders">Github Repository</a>
+            <a  style="padding-left: 45%;" href="https://github.com/18anguyen9/Single_Cell_Coupled_Autoencoders">Github Code Demo</a>
         </div>
 
         

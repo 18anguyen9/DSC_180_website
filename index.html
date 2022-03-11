@@ -13,7 +13,9 @@
                 <img src="dnaflow.png" alt="" class='center_pic' style="height: 40%; width: 60%;" >
                 <p class="bot_caption"> <b>Fig 1.</b> Flow of Information across Modalities </p>
             
-                <p class="center_paragraph">An ongoing mission of scientists in the field of biological data science is to predict this flow of genetic information from one modality to another. While researchers have been interested in analyzing single-cell data in the past, modern science lacked methods to accurately measure data pertaining to a cell as a whole without destroying it in the process. This made analysis difficult to perform, they would be left without the ground truth to compare their results to1. However, this issue can be circumvented due to the fact that we know that protein comes from RNA, and so on. This allows us to perform analysis on specific modalities, which can provide us insights that we can extrapolate to cells as a whole.
+                <p class="center_paragraph">An ongoing mission of scientists in the field of biological data science is to predict this flow of genetic information from one modality to another. To extend this, there will be a demand in predicting these measurements inside a cell. Since the different modalities are connected in an underlying relation within the cell, it is crucial to understand the flow of information inside a cell. Thus our problem is to understand the regulatory processes that occur inside a cell. To further our understanding of how genetic information can transition between modalities will aid modern medicine in regards to what goes wrong in a human body in the context of illness. 
+                </p>
+                <p class="center_paragraph">To approach this problem, we want to implement some sort of machine learning model to learn this regulatory process. Due to the high-dimensional, noisy nature of RNA and protein data, applying machine learning methods to this problem may reveal some truths and relationships behind these two modalities underneath all of this noise. Doing so may also shed light on the nature of RNA itself, as measuring the entirety of it involves destroying the cell. However, because we know that protein comes from RNA, protein measurements can substitute as the ground truth for machine learning methods<sup>1</sup> . This allows scientists to extrapolate the results from RNA and protein analyses to further understand and annotate RNA, which would be nigh impossible without incorporating protein data. Thus, using machine learning to predict one modality from another modality may assist in developing further insight in the relation between different modalities in the cell.
                 </p>
 
         </div>
@@ -22,9 +24,8 @@
 
         <div id="Contribution">
             <h2 class="our_contribution">Our Contribution</h2>
-            <p class="center_paragraph">There have been previous approaches of applying autoencoders to handle cross-modal biology problems in data science. In 2021, Gala, R., Budzillo, A., Baftizadeh, F. et al. published a scientific article on the application of coupled autoencoders to capture gene expression in neurons. They emphasize the power of a linked network of autoencoders (which they dub as a coupled autoencoder) to simultaneously optimize accurate reconstructions of input data while also ensuring that the representation between different input data is as similar as possible.
-            </p>
-            <p class="center_paragraph">In this paper, we propose and utilize a neutral network framework called an coupled autoencoder to handle this cross-modality prediction problem. The coupled autoencoder builds upon the functionality of a single autoencoder, enabling both the reconstruction between and within modalities. A byproduct of this framework is that there is a common embedding, shared by both inputs, which allows us to align both modalities to the same space after encoding. Our goal is to predict one modality from another, from RNA data to protein and from protein to RNA. We implement this autoencoder in our project and find that it is able to perform decently at both clustering the cell types in the latent space, as well as cross-modal prediction. We try to improve this model with further supervision by adding additional loss functions for training and adding a scale factor for the model to learn to reconstruct the data, as we transformed one modality specifically before inputting it into the model. We find that the autoencoder performs quite adequately for RNA to ADT prediction, although further improvements could be made.
+            <p class="center_paragraph">There have been previous approaches of applying autoencoders to handle cross-modal biology problems in data science. In 2021, Gala, R., Budzillo, A., Baftizadeh, F. et al. published a scientific article on the application of coupled autoencoders to capture gene expression in neurons. They emphasize the power of a linked network of autoencoders (which they dub as a coupled autoencoder) to simultaneously optimize accurate reconstructions of input data while also ensuring that the representation between different input data is as similar as possible.  In this project, we use the same coupled autoencoder architecture referenced by Gala, R., Budzillo, A., Baftizadeh, F. et al. to handle this cross-modal prediction task. A byproduct of this framework is that there is a common embedding, shared by both inputs, which allows us to align both modalities to the same space after encoding. Our goal is to predict one modality from another, from RNA data to protein and from protein to RNA. Our analysis will abbreviate the RNA data as GEX, and the protein data as ADT. We implement this autoencoder in our project and find that it is able to perform decently at both clustering the cell types in the latent space, as well as cross-modal prediction. We try to improve this model with further supervision by adding additional loss functions for training and adding a scale factor for the model to learn to reconstruct the data, as we transformed one modality specifically before inputting it into the model. We find that the autoencoder performs quite adequately for RNA to ADT prediction, although further improvements could be made.
+
             </p>
         </div>
         <hr>
@@ -34,7 +35,7 @@
             <h3>Problem Set Up</h3>
             <p class="center_paragraph">As previously mentioned, the objective of our analysis is to perform cross-modal prediction between the two modalities of genetic information. Although the autoencoder framework allows bidirectional prediction, our focus will lie primarily on RNA to protein, as this is the “natural” direction of information flow in cells. The alignment of the latent space for our autoencoder will be judged by visual means, while the reconstruction accuracy will be judged by the RMSE between the reconstruction and the input of the opposite modality.</p>
             <h3>Coupled Autoencoder</h3>
-            <p class="center_paragraph">To accomplish our task, we will be using a coupled autoencoder model, which utilizes a type of neural network called an autoencoder. An autoencoder consists of three, necessary layers: the encoder layer, the code (latent space), and the decoder layers. Encoding layers are often put between the input and the code, and decoding layers are put between the latent space and the output layers. As the data passes between layers in the encoding portion of the autoencoder, it undergoes dimensionality reduction, which will help us denoise the data to find the components of it that encode the most information. The decoding layers will then take the compressed version of the data in the code and reconstruct it layer by layer as the data travels back to the output layer. A single autoencoder model framework is shown below.
+            <p class="center_paragraph">To accomplish our task, we will be using a coupled autoencoder model, which utilizes a type of neural network called an autoencoder. An autoencoder consists of three, necessary parts: the encoder network, the code (latent space), and the decoder network. Encoding networks are often put between the input and the code, and decoding networks are put between the latent space and the output layers. Each network can have multiple layers with different sizes. As the data passes between layers in the encoding portion of the autoencoder, it undergoes dimensionality reduction, which will help us denoise the data to find the components of it that encode the most information. The decoding networks will then take the compressed version of the data in the code and reconstruct it layer by layer as the data travels back to the output layer. A single autoencoder model framework is shown below.
             </p>
 
             <figure title="Single Autoencoder Framework">
@@ -54,23 +55,26 @@
 
             </figure>
             
-           
-            <p class="center_paragraph">To add supervision in the latent space, we implemented two loss functions. The first loss function is pairwise distance loss functions. We define the pairwise loss function as:
+            <p class=center_paragraph>To add supervision in the model's outputs, we want to calculate the losses of the same modality reconstruction. The loss for same modality reconstruction is defined as:
             </p>
-            <img src="pairwise.png" alt="" class="center_pic">
+            <img src="fixreconstruction.png" alt="" class='center_pic'>
+            <p class= "center_paragraph">We also want the model to calculate losses for cross modality prediction. This is defined as:</p>
+            <img src="fixcross_mod.png" alt="" class="center_pic">
+
+            <p class="center_paragraph">Our next loss inside the latent space is Alignment Loss. Since the latent space is shared between the two modalities, we want the embeddings in the latent space to be the same in terms of both position and general clustering patterns. Thus, this loss will be calculated as the mean squared error between the two embeddings, i.e. the mean squared error between the embedding of the GEX data and the ADT data. It is defined as:
+            </p>
+            <img src="fixalignment.png" alt="" class="center_pic" style="height: 9%; width: 35%;">
+            
+            
+            
+            <p class="center_paragraph">To add supervision in the latent space, we implemented a loss function called the Pairwise Distance Loss. We define the pairwise loss function as:
+            </p>
+            <img src="fixpairwise.png" alt="" class="center_pic">
             <p class="center_paragraph"> We denote the encoder and decoder layers of the model by E<sub>i</sub>  and E<sub>j</sub>,  D<sub>i</sub> and D<sub>j</sub> for GEX and ADT respectively. In addition, we denote the original data as X<sub>i</sub>,X<sub>j</sub> for GEX and ADT respectively. Z(X)  calculates the p-norm distance between each point in the data and is defined as the following, where X is defined as the given matrix for the data. Z(X) is defined as:
             </p>
             <img src="z_t.png" alt="" class="center_pic" style="height: 3.5%; width: 15%;">
             <p class = center_paragraph>While we cannot directly calculate the loss of a cell in the input space and its representation in the embedded space, due to the dimensionality reduction aspect of the autoencoder, we instead attempt to preserve the distance between given cells in the input space and those corresponding cells in the latent space as a workaround. This is the goal of our pairwise distance, where we calculate the summation of all of the differences between the pairwise distance of two given cells in the input space and in the embedding. This loss function is then normalized by how many pairwise distance calculations were made in the summation. The goal of our Pairwise Distance loss is to preserve the distance among the points between the original space, and the embedding in the lower dimensions after the encoding, which would result in the same clusters of cells inherently present in the input space to also be maintained in the embedded space.
             </p>
-            <p class="center_paragraph">Our next loss inside the latent space is Alignment Loss. Since the latent space is shared between the two modalities, we want the embeddings in the latent space to be the same in terms of both position and general clustering patterns. Thus, this loss will be calculated as the mean squared error between the two embeddings, i.e. the mean squared error between the embedding of the GEX data and the ADT data. It is defined as:
-            </p>
-            <img src="alignment.png" alt="" class="center_pic" style="height: 9%; width: 35%;">
-            <p class=center_paragraph>To add supervision in the model's outputs, we want to calculate the losses of the same modality reconstruction. The loss for same modality reconstruction is defined as:
-            </p>
-            <img src="reconstruction.png" alt="" class='center_pic'>
-            <p class= "center_paragraph">We also want the model to calculate losses for cross modality prediction. This is defined as:</p>
-            <img src="cross_mod.png" alt="" class="center_pic">
 
             <h3>Preprocessing of GEX data</h3>
             <p class="center_paragraph">The GEX data contains points where certain columns have extremely high values. In the interest of clustering the data by their cell types, those cells can be interpreted as having much further distances from other clusters of cells. This causes the encoder of the model to not accurately cluster up the cell types in lower dimensions because these distant points are dominating. An option to alleviate this issue could be to remove outliers, or to set a maximum value for these distances, but these extreme values may be important to the identity of those cells. Our solution is to log transform and then normalize the data. This allows the data to reduce the large distances from these far points while preserving the distribution of the points in order to be able to cluster up the different cell types accurately in lower dimensions. 
@@ -155,7 +159,7 @@
          
         
 
-            <h3>Improvements</h3>
+            <h3>Model Parameter Tuning</h3>
             <p class="center_paragraph">In the earlier visualization of the latent space, we brought the number of dimensions to 2 for easy visualization purposes. For the final model we want to find the optimal number of dimensions in the latent space to give more space for the embedding.</p>
             <div class="imgContainer">
                 <p style="float: left; padding-left: 23%; padding-bottom: 0%;"><b>Latent Space Dimension Size</b></p>
@@ -188,10 +192,10 @@
             <h2>Conclusion</h2>
             <p class="center_paragraph">As a result, a coupled autoencoder framework to perform cross modality prediction in single cells will provide great benefits for future study. Our results visualize a common space where two modalities are able to share. Though there are other dimension reduction techniques similar to the encoder layer of our model such as TSNE, PCA, and ISOMAPS, the space between the two modalities are not shared or do not cluster well. The coupled autoencoder framework is able to utilize this shared space between the two modalities in order to predict across modalities. Moving forward, further research will improve on this model. Different Loss Functions such as a K nearest neighbor loss can be added in order to preserve distances more precisely. In addition, different preprocessing techniques may prove to assist in improving the model due to the high dimensions of GEX data.  Analysis on single cell data has been difficult in the past to perform, thus accurate predictions will provide great insight on the flow of information inside our cells. This will benefit modern science as it gives insights on how illnesses occur and the intricacies of the human body.</p>
             <h2>References</h2>
-            <p class="center_paragraph">Czi. “About Multimodal Single-Cell Data.” Open Problems in Single Cell Analysis, 21 Oct. 2021, https://openproblems.bio/neurips_docs/data/about_multimodal/.
+            <p class="center_paragraph">1. Czi. “About Multimodal Single-Cell Data.” Open Problems in Single Cell Analysis, 21 Oct. 2021, https://openproblems.bio/neurips_docs/data/about_multimodal/.
             </p>
-            <p class="center_paragraph">Gala, R., Budzillo, A., Baftizadeh, F. et al. Consistent cross-modal identification of cortical neurons with coupled </p>
-            <a  style="padding-left: 45%;" href="https://github.com/18anguyen9/Single_Cell_Coupled_Autoencoders">Github Code Demo</a>
+            <p class="center_paragraph">2. Gala, R., Budzillo, A., Baftizadeh, F. et al. Consistent cross-modal identification of cortical neurons with coupled autoencoers</p>
+            <a  style="padding-left: 45%;" href="https://github.com/18anguyen9/Single_Cell_Coupled_Autoencoders">3. Github Code Demo</a>
         </div>
 
         
